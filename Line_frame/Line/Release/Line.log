@@ -1,0 +1,8 @@
+﻿  main.cpp
+  Generating code
+  2 of 20 functions (10.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    2 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  Line.vcxproj -> E:\北航工训\实验一\实验1_直线+Bezier曲线\Line_frame\Release\Line.exe
+  Line.vcxproj -> E:\北航工训\实验一\实验1_直线+Bezier曲线\Line_frame\Release\Line.pdb (Full PDB)
