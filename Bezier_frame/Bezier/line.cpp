@@ -9,7 +9,7 @@
 //setPixel,像素处理函数
 void DDA(int xa,int ya,int xb,int yb,void (*setPixel)(int x,int y)){
 
-	//添加代码ggg
+	//添加代码
 	int dx, dy, steps, k;
 	float delta_x, delta_y, x, y;
 	x = xa;
