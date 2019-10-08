@@ -28,6 +28,7 @@ void BezierCurve::computeBezPt(float u,wcPt3D *bezPt,int nCtrlPts,wcPt3D *ctrlPt
 
 	//powf(x,k) x的k次方
 	//添加代码
+	//计算曲线点坐标
 	int k, n = nCtrlPts - 1;
 	float frac_sum;
 	bezPt->x = bezPt->y = bezPt->z = 0.0;
@@ -48,6 +49,7 @@ void BezierCurve::computeBezPt(float u,wcPt3D *bezPt,int nCtrlPts,wcPt3D *ctrlPt
 void BezierCurve::bezier(wcPt3D *ctrlPts,int nCtrlPts,wcPt3D *bezCurvePts,int nBezCurvePts){
 
 	//添加代码
+	//计算所有曲线点并存入数组bezCurvePts中
 	float *C;
 	float u;
 	wcPt3D bezpt;
