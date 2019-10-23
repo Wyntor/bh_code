@@ -1,10 +1,8 @@
-﻿  letter.cpp
-  line.cpp
+﻿  line.cpp
 line.cpp(15): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
 line.cpp(16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-  main.cpp
   Generating code
-  20 of 20 functions (100.0%) were compiled, the rest were copied from previous compilation.
+  0 of 20 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     0 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
