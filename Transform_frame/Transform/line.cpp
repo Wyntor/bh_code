@@ -9,8 +9,26 @@
 //setPixel,像素处理函数
 void DDA(int xa,int ya,int xb,int yb,void (*setPixel)(int x,int y)){
 
-	////添加代码
-
+	//添加代码
+	int dx, dy, steps, k;
+	float delta_x, delta_y, x, y;
+	x = xa;
+	y = ya;
+	dx = xb - xa;
+	dy = yb - ya;
+	if (abs(dx) >= abs(dy)) {
+		steps = abs(dx);//斜率小于等于1
+	}
+	else {
+		steps = abs(dy);
+	}
+	delta_x = (float)dx / (float)steps;
+	delta_y = (float)dy / (float)steps;
+	for (k = 0; k <= steps; k++) {
+		setPixel(int(x + 0.5), int(y + 0.5));
+		x += delta_x;
+		y += delta_y;
+	}
 }
 
 //Bresenham算法绘制直线
