@@ -116,7 +116,7 @@ void World::getColourForRay(const Ray& ray, Colour& colour_out,int traceNum)
 	//添加代码
 	Colour kd, ks, ka;
 	float ns;
-	Vec3 IntersectionPoint, ReflectedDirection,L,N,S,R;
+	Vec3 IntersectionPoint, ReflectedDirection,L,N,S,R, Rray;
 	Colour LocalColor, ReflectedColor;
 	Object* currrentObject = NULL;
 	float dist = 0.0f;
@@ -125,14 +125,13 @@ void World::getColourForRay(const Ray& ray, Colour& colour_out,int traceNum)
 		colour_out = Colour::black();
 	}
 	else {
-		LocalColor =  currrentObject->getMaterial().m_ambient;
 		//求交点坐标
 		IntersectionPoint = ray.m_startPos;
 		IntersectionPoint.addMult(ray.m_unitDir,dist/ray.m_unitDir.length());
 
 		//求交点处的单位法向量
 		N = currrentObject->getGeometry().getNormalForPos(IntersectionPoint);
-		N = N.normalise();
+		N.normalise();
 
 
 		ka = currrentObject->getMaterial().m_ambient;//环境光反射系数
@@ -141,28 +140,32 @@ void World::getColourForRay(const Ray& ray, Colour& colour_out,int traceNum)
 		ns = currrentObject->getMaterial().m_ns;//镜面反射参数
 
 		//射线的反方向
-		S.x = -ray.m_unitDir.x;
-		S.y = -ray.m_unitDir.y;
-		S.z = -ray.m_unitDir.z;
-		S = S.normalise();
-        
+		S = ray.m_startPos - IntersectionPoint;
+		S.normalise();
+
+		LocalColor = ka;
 		for (int i = 0; i < m_lights.size(); i++) {
 		    //计算入射光单位向量
-			L = m_lights[i]->getPos();
-			L.sub(IntersectionPoint);
-			L = L.normalise();
+			L = m_lights[i]->getPos() - IntersectionPoint;
+			L.normalise();
 
 			//计算反射光的单位向量
-			R = 2 * N*(dot(N, L)) - L;
-			R = R.normalise();
+			R = 2 * N * (dot(N, L)) - L;
+			R.normalise();
 
 			const Ray Lray(IntersectionPoint,L);
 			float Ldist;
 			if (closestObject(Lray,Ldist) == NULL) {
-				LocalColor += m_lights[i]->getColour()*(kd*dot(N, L) + ks*pow(max(dot(R, S), 0.0), ns));
+				LocalColor += m_lights[i]->getColour()*(kd*(max(dot(N, L),0.0)) + ks*pow(max(dot(R, S), 0.0), ns));
+				//LocalColor += m_lights[i]->getColour()*(kd*(dot(N, L)) + ks*pow(dot(R, S), ns));
 			}
 		}
+		//追踪射线的反射方向
+		Rray = 2 * N * (dot(S, N)) - S;
+		Rray.normalise();
 
+		const Ray r_ray(IntersectionPoint, Rray);
+		getColourForRay(r_ray, ReflectedColor, traceNum - 1);
 		colour_out = LocalColor + ks * ReflectedColor;
 
 	}

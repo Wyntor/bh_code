@@ -26,6 +26,7 @@ public:
 		Vec3 A=m_v2-m_v1,B=m_v3-m_v1;
 		float a=A.x,b=A.y,c=A.z,d=B.x,e=B.y,f=B.z;
 		return normalise(Vec3(b*f-c*e,c*d-a*f,a*e-b*d));
+		//return normalise(Vec3(c*e - b*f, a*f - c*d, b*d - a*e));
 	}
 
 private:
