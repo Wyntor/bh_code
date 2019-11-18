@@ -125,7 +125,7 @@ void World::getColourForRay(const Ray& ray, Colour& colour_out,int traceNum)
 		colour_out = Colour::black();
 	}
 	else {
-		LocalColor = colour_out * currrentObject->getMaterial().m_ambient;
+		LocalColor =  currrentObject->getMaterial().m_ambient;
 		//求交点坐标
 		IntersectionPoint = ray.m_startPos;
 		IntersectionPoint.addMult(ray.m_unitDir,dist/ray.m_unitDir.length());
@@ -133,6 +133,7 @@ void World::getColourForRay(const Ray& ray, Colour& colour_out,int traceNum)
 		//求交点处的单位法向量
 		N = currrentObject->getGeometry().getNormalForPos(IntersectionPoint);
 		N = N.normalise();
+
 
 		ka = currrentObject->getMaterial().m_ambient;//环境光反射系数
 		kd = currrentObject->getMaterial().m_diffuse;//漫反射系数
@@ -155,12 +156,14 @@ void World::getColourForRay(const Ray& ray, Colour& colour_out,int traceNum)
 			R = 2 * N*(dot(N, L)) - L;
 			R = R.normalise();
 
-			//计算漫反射和镜面反射后的光颜色
-			LocalColor += m_lights[i]->getColour()*(kd*dot(N, L) + ks*pow(max(dot(R, S),0.0), ns));
-			//LocalColor += m_lights[i]->getColour()*(ks*pow(max(dot(R, S), 0.0), ns));
+			const Ray Lray(IntersectionPoint,L);
+			float Ldist;
+			if (closestObject(Lray,Ldist) == NULL) {
+				LocalColor += m_lights[i]->getColour()*(kd*dot(N, L) + ks*pow(max(dot(R, S), 0.0), ns));
+			}
 		}
 
-		colour_out = LocalColor;
+		colour_out = LocalColor + ks * ReflectedColor;
 
 	}
 }

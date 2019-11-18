@@ -46,6 +46,7 @@ void createScene(){
 	//Èý½ÇÐÎ
 	{
 		Material mat(Colour(0.2f,0.2f,0.2f),Colour(0.5f,0.5f,0.5f),Colour(0.5f,0.5f,0.5f),100.0f);
+		//Material mat(Colour(1.0f, 1.0f, 1.0f), Colour(1.0f, 1.0f, 1.0f), Colour(1.0f, 1.0f, 1.0f), 100.0f);
 			
 		Triangle* triangle = new Triangle(Vec3(30,-9,30),Vec3(-30,-9,30),Vec3(30,0,-100));
 
