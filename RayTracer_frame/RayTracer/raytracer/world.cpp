@@ -143,7 +143,7 @@ void World::getColourForRay(const Ray& ray, Colour& colour_out,int traceNum)
 		S = ray.m_startPos - IntersectionPoint;
 		S.normalise();
 
-		LocalColor = ka;
+		LocalColor = ka * ambient_lighting;
 		for (int i = 0; i < m_lights.size(); i++) {
 		    //计算入射光单位向量
 			L = m_lights[i]->getPos() - IntersectionPoint;
@@ -156,7 +156,7 @@ void World::getColourForRay(const Ray& ray, Colour& colour_out,int traceNum)
 			const Ray Lray(IntersectionPoint,L);
 			float Ldist;
 			if (closestObject(Lray,Ldist) == NULL) {
-				LocalColor += m_lights[i]->getColour()*(kd*(max(dot(N, L),0.0)) + ks*pow(max(dot(R, S), 0.0), ns));
+				LocalColor += m_lights[i]->getColour()*(kd*(max(dot(N, L),0.0)) + ks*pow(dot(R, S), ns));
 				//LocalColor += m_lights[i]->getColour()*(kd*(dot(N, L)) + ks*pow(dot(R, S), ns));
 			}
 		}
