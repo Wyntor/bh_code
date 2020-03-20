@@ -8,7 +8,7 @@
 #include <math.h>
 #include <assert.h>
 #include <lib3ds.h>
-#include <GL/glut.h>
+#include <glut.h>
 #include "common.h"
 #include "transformation.h"
 #include "component.h"

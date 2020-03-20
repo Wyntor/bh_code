@@ -155,10 +155,11 @@ void World::getColourForRay(const Ray& ray, Colour& colour_out,int traceNum)
 
 			const Ray Lray(IntersectionPoint,L);
 			float Ldist;
-			if (closestObject(Lray,Ldist) == NULL) {
-				LocalColor += m_lights[i]->getColour()*(kd*(max(dot(N, L),0.0)) + ks*pow(dot(R, S), ns));
-				//LocalColor += m_lights[i]->getColour()*(kd*(dot(N, L)) + ks*pow(dot(R, S), ns));
+			if (closestObject(Lray,Ldist) == NULL && dot(N, L) >= 0.0) {
+				LocalColor += m_lights[i]->getColour()*(kd*(dot(N, L)) + ks*pow(dot(R, S), 32));
+				//LocalColor += m_lights[i]->getColour()*(kd*(max(dot(N, L), 0.0)));
 			}
+			//LocalColor += m_lights[i]->getColour()*(ks*pow(max(dot(R, S), 0.0), 32));
 		}
 		//追踪射线的反射方向
 		Rray = 2 * N * (dot(S, N)) - S;
